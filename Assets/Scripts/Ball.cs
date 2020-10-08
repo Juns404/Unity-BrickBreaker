@@ -18,6 +18,7 @@ public class Ball : MonoBehaviour
     void Update()
     {
         MovementBall();
+        CheckInput();
     }
     private void MovementBall()
     {
@@ -26,5 +27,17 @@ public class Ball : MonoBehaviour
             movement = Input.GetAxisRaw("Horizontal");
             rb.velocity = new Vector2(movement * speed, rb.velocity.y);
         }
+    }
+    private void CheckInput()
+    {
+        if (Input.GetKeyDown(KeyCode.B) && !launched)
+        {
+            Launch();
+        }
+    }
+    private void Launch()
+    {
+        launched = true;
+        rb.velocity = new Vector2(0, 1).normalized * speed;
     }
 }
