@@ -17,27 +17,33 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MovementBall();
         CheckInput();
-    }
-    private void MovementBall()
-    {
-        if (!launched)
-        {
-            movement = Input.GetAxisRaw("Horizontal");
-            rb.velocity = new Vector2(movement * speed, rb.velocity.y);
-        }
     }
     private void CheckInput()
     {
+        if (!launched)
+        {
+            MovementBall();
+        }
         if (Input.GetKeyDown(KeyCode.B) && !launched)
         {
             Launch();
         }
     }
+    private void MovementBall()
+    {
+        movement = Input.GetAxisRaw("Horizontal");
+        rb.velocity = new Vector2(movement * speed, rb.velocity.y);
+    }
     private void Launch()
     {
         launched = true;
-        rb.velocity = new Vector2(0, 1).normalized * speed;
+        float x = Random.Range(0, 2) == 0 ? -1 : 1;
+        rb.velocity = new Vector2(x, 1).normalized * speed;
+    }
+    public void Reset()
+    {
+        launched = false;
+        rb.velocity = Vector2.zero;
     }
 }
