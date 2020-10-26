@@ -7,7 +7,7 @@ public class Manager : MonoBehaviour
     public Ball initialBall, prefabBall;
     public Brick initialBrick, prefabBrick;
     public Paddle initialPaddle, prefabPaddle;
-    public GameObject padfab;
+    public GameObject padfab, balfab;
     public bool gameRunning;
     public int rows, columns;
     public float space;
@@ -16,23 +16,28 @@ public class Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        BallManager();
-        PaddleManager();
-        BrickManager();
+        // ManagerBrickDestroy();
+        ManagerBallSpawn();
+        ManagerPaddleSpawn();
+        ManagerBrickSpawn();
         //prefabBrick = GetComponent <
         //brick.GetComponent<b>;
     }
     void init()
     {
-
+        Debug.Log("init function.");
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (initialBall == null && gameRunning)
+        {
+            Debug.Log("Detected ball destroyed.");
+            Reset();
+        }
     }
-    private void BallManager()
+    private void ManagerBallSpawn()
     {
         //Ball spawn, once.
         //if (!gameRunning)
@@ -44,7 +49,7 @@ public class Manager : MonoBehaviour
         //}
     }
 
-    private void BrickManager()
+    private void ManagerBrickSpawn()
     {
         //create rows and cols for bricks
         for (int y = 0; y < rows; y++)
@@ -55,17 +60,34 @@ public class Manager : MonoBehaviour
             {
                 initialBrick = Instantiate(prefabBrick, brickPos, Quaternion.identity);
                 brickPos.x += space;
+                bricksList.Add(initialBrick.gameObject);
+                //Debug.Log(bricksList.Count);
             }
         }
     }
-    private void PaddleManager()
+
+    private void ManagerBrickDestroy()
+    {
+        foreach (GameObject brick in bricksList)
+        {
+            Destroy(brick);
+            Debug.Log("ManagerBrickDestroy.");
+        }
+        bricksList.Clear();
+    }
+
+    private void ManagerPaddleSpawn()
     {
         Vector2 spawnpos = padfab.gameObject.transform.position;
         GameObject padd = Instantiate(padfab, spawnpos, Quaternion.identity);
+        //Debug.Log(padd);
     }
 
-    private void Reset()
+    public void Reset()
     {
-
+        Debug.Log("Manager Reset.");
+        ManagerBrickDestroy();
+        // Remake Bricks and Ball
+        gameRunning = false;
     }
 }

@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 1065488669}
   m_Layer: 0
   m_Name: WallBottom
-  m_TagString: Untagged
+  m_TagString: Goal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -340,7 +340,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -460,9 +460,9 @@ MonoBehaviour:
     type: 3}
   padfab: {fileID: 8439634873006588476, guid: 376f499ea1c2a07cbb67f957506884f1, type: 3}
   gameRunning: 0
-  rows: 2
-  columns: 6
-  space: 2
+  rows: 5
+  columns: 9
+  space: 1.5
   bricksList: []
 --- !u!4 &1208749567
 Transform:
