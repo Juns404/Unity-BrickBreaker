@@ -7,7 +7,7 @@ public class Manager : MonoBehaviour
     public Ball initialBall, prefabBall;
     public Brick initialBrick, prefabBrick;
     public Paddle initialPaddle, prefabPaddle;
-    public GameObject padfab, balfab;
+    // public GameObject padfab, balfab;
     public bool gameRunning;
     public int rows, columns;
     public float space;
@@ -16,16 +16,10 @@ public class Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // ManagerBrickDestroy();
-        ManagerBallSpawn();
         ManagerPaddleSpawn();
+        ManagerBallSpawn();
         ManagerBrickSpawn();
-        //prefabBrick = GetComponent <
-        //brick.GetComponent<b>;
-    }
-    void init()
-    {
-        Debug.Log("init function.");
+        Debug.Log(initialBall);
     }
 
     // Update is called once per frame
@@ -35,18 +29,27 @@ public class Manager : MonoBehaviour
         {
             Debug.Log("Detected ball destroyed.");
             Reset();
+            Debug.Log(initialBall + "Update function");
         }
     }
+
+    private void ManagerPaddleSpawn()
+    {
+        Vector2 paddlePos = prefabPaddle.gameObject.transform.position;
+        initialPaddle = Instantiate(prefabPaddle, paddlePos, Quaternion.identity);
+        //Debug.Log(padd);
+    }
+
     private void ManagerBallSpawn()
     {
         //Ball spawn, once.
-        //if (!gameRunning)
-        //{
-        Vector3 paddlePos = prefabPaddle.gameObject.transform.position;
-        Vector3 ballPos = new Vector3(paddlePos.x, paddlePos.y + .2f);
-        initialBall = Instantiate(prefabBall, ballPos, Quaternion.identity);
-        gameRunning = true;
-        //}
+        if (!gameRunning)
+        {
+            Vector3 paddlePos = initialPaddle.gameObject.transform.position;
+            Vector3 ballPos = new Vector3(paddlePos.x, paddlePos.y + .2f);
+            initialBall = Instantiate(prefabBall, ballPos, Quaternion.identity);
+            gameRunning = true;
+        }
     }
 
     private void ManagerBrickSpawn()
@@ -71,23 +74,21 @@ public class Manager : MonoBehaviour
         foreach (GameObject brick in bricksList)
         {
             Destroy(brick);
-            Debug.Log("ManagerBrickDestroy.");
+            // Debug.Log("ManagerBrickDestroy.");
         }
         bricksList.Clear();
     }
 
-    private void ManagerPaddleSpawn()
-    {
-        Vector2 spawnpos = padfab.gameObject.transform.position;
-        GameObject padd = Instantiate(padfab, spawnpos, Quaternion.identity);
-        //Debug.Log(padd);
-    }
+
 
     public void Reset()
     {
+        gameRunning = false;
         Debug.Log("Manager Reset.");
         ManagerBrickDestroy();
         // Remake Bricks and Ball
-        gameRunning = false;
+        ManagerBrickSpawn();
+        ManagerBallSpawn();
+        Debug.Log(initialBall + "Reset function");
     }
 }
